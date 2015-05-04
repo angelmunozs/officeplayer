@@ -1,0 +1,38 @@
+.source-link {
+	font-size: 1.7em;
+	color: #333;
+}
+.input-group-addon:hover {
+	cursor: pointer;
+	background-color: #ccc;
+}
+.footer {
+	bottom: 0;
+	position: fixed;
+	padding: 20px;
+}
+.player {
+	width: 100%;
+	padding: 8px;
+	background-color: #fff;
+}
+.main-nav {
+	margin-top: 16px;
+	font-size: 0.8em;
+}
+.header-nav {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+.main-nav a {
+	display: inline;
+	padding: 0px 5px 0px 5px;
+}
+#webpage-iframe {
+	height: 84%;
+	padding: 0px;
+}
+iframe {
+	border: none;
+	width: 100%;
+}
