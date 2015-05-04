@@ -11,12 +11,14 @@ var updateYouTubeLink = function (url) {
 	}
 }
 var updateSoundCloudLink = function (url) {
+	var soundcloud_client_id = '3e9dd75156ca9e500e4798241f6ac840'
 	var url_words = url.split('/')
+	
 	if(/https?:\/\/soundcloud\.com/.test(url) && url_words.length == 5) {
 		var artist = url_words[3]
 		var title = url_words[4]
 
-		$.get('http://api.soundcloud.com/resolve.json?url=http://soundcloud.com/' + artist + '/' + title + '&client_id=3e9dd75156ca9e500e4798241f6ac840', function (data) {
+		$.get('http://api.soundcloud.com/resolve.json?url=http://soundcloud.com/' + artist + '/' + title + '&client_id=' + soundcloud_client_id, function (data) {
 			$('#soundcloud-url').css('border-color', '#ccc')
 			$('#soundcloud-iframe').attr('src', $('#soundcloud-iframe').attr('src').replace(/[0-9]{9,9}/, data.id))
 		})

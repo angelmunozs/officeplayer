@@ -1,0 +1,3 @@
+module.exports = {
+	SOUNDCLOUD_CLIENT_ID = '3e9dd75156ca9e500e4798241f6ac840'
+}
