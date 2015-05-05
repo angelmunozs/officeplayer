@@ -1,0 +1,39 @@
+body {
+	background-color: #eee;
+	font-family: Arial;
+	display: table;
+	width: 95%;
+	height: 95%;
+}
+.centered-in-page {
+	color: #aaa;
+	display: table-cell;
+	vertical-align: middle;
+}
+.big-letters {
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 1.5em;
+}
+.small-letters {
+	font-size: 0.8em;
+	font-style: italic;
+}
+.small-letters a {
+	text-decoration: none;
+	color: #81BEF7;
+}
+.small-letters a:hover {
+	color: #58ACFA;
+}
+#instructions {
+	font-size: 0.8em;
+}
+ol li {
+	margin-bottom: 10px;
+}
+#intro ol {
+	margin-top: 30px;
+	font-size: 0.8em;
+}
