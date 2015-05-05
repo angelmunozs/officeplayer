@@ -53,7 +53,7 @@ var loadPage = function (url) {
 	var no_http_regex = /^https?\:\/\//
 	if(url_regex.test(url)) {
 		if(!no_http_regex.test(url)) {
-			url += 'http://'
+			url = 'http://' + url
 		}
 		$('#webpage-url').css('border-color', '#ccc')
 		$('#webpage-iframe').attr('src', url)
