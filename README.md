@@ -2,6 +2,8 @@
 
 Office Player is an application where you can surf the internet while listening to a YouTube or SoundCloud track. Designed for use at work or at University, where you might need to be discrete if you want to listen to music.
 
+Hosted at [officeplayer.com](http://www.officeplayer.com "Office Player")
+
 ### Version
 1.0.0
 

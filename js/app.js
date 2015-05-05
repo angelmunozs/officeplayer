@@ -4,6 +4,9 @@ var iframeLoadTimeAllowed = 8000
 var iframeError
 //	Location of the error page
 var errorPageLocation = 'error.html'
+//	Flags to collapse players
+var soundcloudCollapsed = false
+var youtubeCollapsed = true
 
 var updateYouTubeLink = function (url) {
 	//	Regex that matches a valid YouTube URL
@@ -70,20 +73,23 @@ var loadPage = function (url) {
 	}
 }
 
+var showPlayer = function(platform) {
+	$('.player').hide()
+	$('#webpage-iframe').css('height', '84%')
+	$('#' + platform + '-player').show()
+}
+
 $(document).ready(function () {
     $('#webpage-iframe').load(function () {
         window.clearTimeout(iframeError)
         iframeError = null
     })
     //	Default: hides YouTube player, to show only the SoundCloud one
-	$('.youtube').hide()
 	$('#youtube-link').click(function () {
-		$('#soundcloud-player').hide()
-		$('#youtube-player').show()
+		showPlayer('youtube')
 	})
 	$('#soundcloud-link').click(function () {
-		$('#youtube-player').hide()
-		$('#soundcloud-player').show()
+		showPlayer('soundcloud')
 	})
 	$('#youtube-button').click(function () {
 		updateYouTubeLink($('#youtube-url').val())
