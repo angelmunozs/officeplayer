@@ -1,8 +1,9 @@
 //	Time allowed for the iframe to load
-var iframeLoadTimeAllowed = 5000
-//	Error shown in concole when an iframe fails to load because the resource denies it
-var iframeLoadingError = 'Load denied by X-Frame-Options: %s does not permit cross-origin framing'
+var iframeLoadTimeAllowed = 8000
+//	Javascript Timeout, activated when an iframe is called to load
 var iframeError
+//	Location of the error page
+var errorPageLocation = 'error.html'
 
 var updateYouTubeLink = function (url) {
 	//	Regex that matches a valid YouTube URL
@@ -48,14 +49,18 @@ var loadPage = function (url) {
 	//	Regex that matches a URL
 	//	Source: http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
 	var url_regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+	//	Regex that matches a URL starting with 'http://' or 'https://'
+	var no_http_regex = /^https?\:\/\//
 	if(url_regex.test(url)) {
+		if(!no_http_regex.test(url)) {
+			url += 'http://'
+		}
 		$('#webpage-url').css('border-color', '#ccc')
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
 		//	Start timeout
-		iframeError = setTimeout(function () {
-			$('#webpage-url').css('border-color', '#f00')
-			alert(iframeLoadingError, url)
+		iframeError = window.setTimeout(function () {
+			$('#webpage-iframe').attr('src', errorPageLocation)
 		}, iframeLoadTimeAllowed)
 	}
 	else {
@@ -66,9 +71,11 @@ var loadPage = function (url) {
 }
 
 $(document).ready(function () {
-    $('#webpage-iframe').on('load', function () {
-        clearTimeout(iframeError);
+    $('#webpage-iframe').load(function () {
+        window.clearTimeout(iframeError)
+        iframeError = null
     })
+    //	Default: hides YouTube player, to show only the SoundCloud one
 	$('.youtube').hide()
 	$('#youtube-link').click(function () {
 		$('#soundcloud-player').hide()
