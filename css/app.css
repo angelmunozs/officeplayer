@@ -36,3 +36,8 @@ iframe {
 	border: none;
 	width: 100%;
 }
+#webpage-iframe-intro {
+	text-align: center;
+	vertical-align: middle;
+	display: table-row;
+}

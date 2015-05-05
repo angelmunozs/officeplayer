@@ -31,6 +31,7 @@ var updateSoundCloudLink = function (url) {
 var loadPage = function (url) {
 	var url_regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 	if(url_regex.test(url)) {
+		$('#webpage-url').css('border-color', '#ccc')
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
 	}
