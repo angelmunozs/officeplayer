@@ -128,6 +128,7 @@ var loadPage = function (url) {
 		if(url.indexOf('officeplayer') != -1) {
 			console.log('Isn\'t one Office Player enough?')
 			inputError('webpage')
+			return
 		}
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
