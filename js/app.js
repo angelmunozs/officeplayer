@@ -9,7 +9,7 @@ var isCollapsed = {
 
 //	Time allowed for the iframe to load, before showing error page
 var IFRAME_LOAD_TIME_ALLOWED = 60000
-//	Location of the error page
+//	Location of the error page (RELATIVE path to index.html)
 var ERROR_PAGE_LOCATION = 'error.html'
 //	Errors shown
 var errors = {
