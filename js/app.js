@@ -125,6 +125,10 @@ var loadPage = function (url) {
 	//	Regex that matches a URL starting with 'http://' or 'https://'
 	var no_http_regex = /^https?\:\/\//
 	if(url_regex.test(url)) {
+		if(url.indexOf('officeplayer') != -1) {
+			console.log('Isn\'t one Office Player enough?')
+			inputError('webpage')
+		}
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
 		}
@@ -132,9 +136,9 @@ var loadPage = function (url) {
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
 		//	Start timeout
-		iframeError = window.setTimeout(function () {
-			$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
-		}, IFRAME_LOAD_TIME_ALLOWED)
+		// iframeError = window.setTimeout(function () {
+		// 	$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
+		// }, IFRAME_LOAD_TIME_ALLOWED)
 	}
 	else {
 		console.log('Not an URL!')
@@ -147,12 +151,17 @@ var loadPage = function (url) {
 //	============================================================================================
 
 $(document).ready(function () {
-	var iframe = $('#webpage-iframe')
-    iframe.load(function () {
-    	//	$('#webpage-url').val(iframe.contentWindow.location.href)
-        window.clearTimeout(iframeError)
-        iframeError = null
-    })
+	// var iframe = $('#webpage-iframe')
+	//   iframe.load(function () {
+	//   		$('#webpage-url').val(iframe.contentWindow.location.href)
+	//		window.clearTimeout(iframeError)
+	//		iframeError = null
+	//   })
+
+	var webpageInput = $('#webpage-url')
+	var youtubeInput = $('#youtube-url')
+	var soundcloudInput = $('#soundcloud-url')
+	var mixcloudInput = $('#mixcloud-url')
 
     //	Show players
 	$('#youtube-link').click(function () {
@@ -165,19 +174,41 @@ $(document).ready(function () {
 		showPlayer('mixcloud')
 	})
 
+	//	Load webpage
+	$('#webpage-button').click(function () {
+		loadPage(webpageInput.val())
+	})
 	//	Load music
 	$('#youtube-button').click(function () {
-		updateYouTubeLink($('#youtube-url').val())
+		updateYouTubeLink(youtubeInput.val())
 	})
 	$('#soundcloud-button').click(function () {
-		updateSoundCloudLink($('#soundcloud-url').val())
+		updateSoundCloudLink(soundcloudInput.val())
 	})
 	$('#mixcloud-button').click(function () {
-		updateMixcloudLink($('#mixcloud-url').val())
+		updateMixcloudLink(mixcloudInput.val())
 	})
 
-	//	Load webpage
-	$('#webpage-load').click(function () {
-		loadPage($('#webpage-url').val())
+	//	On 'enter' key press
+	webpageInput.keyup(function (event) {
+		if(event.keyCode == 13){
+			loadPage(webpageInput.val())
+		}
 	})
+	youtubeInput.keyup(function (event) {
+		if(event.keyCode == 13){
+			updateYouTubeLink(youtubeInput.val())
+		}
+	})
+	soundcloudInput.keyup(function (event) {
+		if(event.keyCode == 13){
+			updateSoundCloudLink(soundcloudInput.val())
+		}
+	})
+	mixcloudInput.keyup(function (event) {
+		if(event.keyCode == 13){
+			updateMixcloudLink(mixcloudInput.val())
+		}
+	})
+
 })
