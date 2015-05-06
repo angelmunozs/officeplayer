@@ -7,7 +7,7 @@ var isCollapsed = {
 	mixcloud : true
 }
 
-//	Time allowed for the iframe to load
+//	Time allowed for the iframe to load, before showing error page
 var IFRAME_LOAD_TIME_ALLOWED = 60000
 //	Location of the error page
 var ERROR_PAGE_LOCATION = 'error.html'
@@ -128,7 +128,7 @@ var loadPage = function (url) {
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
 		}
-		$('#webpage-url').css('border-color', '#ccc')
+		inputOk('webpage')
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
 		//	Start timeout
@@ -138,8 +138,7 @@ var loadPage = function (url) {
 	}
 	else {
 		console.log('Not an URL!')
-		$('#webpage-url').css('border-color', '#f00')
-		return
+		inputError('webpage')
 	}
 }
 
@@ -148,7 +147,9 @@ var loadPage = function (url) {
 //	============================================================================================
 
 $(document).ready(function () {
-    $('#webpage-iframe').load(function () {
+	var iframe = $('#webpage-iframe')
+    iframe.load(function () {
+    	//	$('#webpage-url').val(iframe.contentWindow.location.href)
         window.clearTimeout(iframeError)
         iframeError = null
     })
