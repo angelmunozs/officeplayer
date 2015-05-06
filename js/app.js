@@ -25,10 +25,10 @@ var updateYouTubeLink = function (url) {
 	//	Source: http://stackoverflow.com/questions/3717115/regular-expression-for-youtube-links
 	var yt_regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
 	if(yt_regex.test(url)) {
+		inputOk('youtube')
 		//	Regex that matches a YouTube video ID from a YouTube video URL
 		var yt_id_regex = /[a-zA-Z0-9_-]{11,11}/
 		var video_id = url.match(yt_id_regex)
-		$('#youtube-url').css('border-color', '#ccc')
 		//	Replace video ID
 		$('#youtube-iframe').attr('src', $('#youtube-iframe').attr('src').replace(yt_id_regex, video_id))
 	}
@@ -48,6 +48,7 @@ var updateSoundCloudLink = function (url) {
 	var url_separates = url.split('/')
 	
 	if(sc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
+		inputOk('youtube')
 		var artist = url_separates[3]
 		var title = url_separates[4]
 		//	Soundcloud developers API to get track information
@@ -69,11 +70,12 @@ var updateMixcloudLink = function (url) {
 	var url_separates = url.split('/')
 
 	if(mc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
+		inputOk('mixcloud')
 		var src_attr = $('#mixcloud-iframe').attr('src').split('&')
 		for(var i in src_attr) {
-			if(/^feed=/.test(src_attr[i])) src_attr[i] = '&feed=' + encodeURIComponent(url)
+			if(/^feed=/.test(src_attr[i])) src_attr[i] = '&feed=' + encodeURIComponent(url) + (url[url.length - 1] == '/' ? '' : '%2F')
 		}
-
+		console.log(src_attr.join('&'))
 		$('#mixcloud-iframe').attr('src', src_attr.join('&'))
 	}
 	else {
@@ -87,11 +89,15 @@ var inputError = function (platform) {
 	$('#' + platform + '-url').css('border-color', '#f00')
 }
 
+var inputOk = function (platform) {
+	if(!$('#' + platform + '-url')) return
+	$('#' + platform + '-url').css('border-color', '#ccc')
+}
+
 var showPlayer = function (platform) {
 	for(var p in isCollapsed) {
 		if(p != platform) isCollapsed[p] = true
 	}
-	console.log(isCollapsed)
 	$('.platform-link').removeClass('active')
 	if(isCollapsed[platform]) {
 		$('.player').hide()
