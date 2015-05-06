@@ -1,12 +1,24 @@
-//	Time allowed for the iframe to load
-var iframeLoadTimeAllowed = 8000
 //	Javascript Timeout, activated when an iframe is called to load
 var iframeError
-//	Location of the error page
-var errorPageLocation = 'error.html'
 //	Flags to collapse players
-var soundcloudCollapsed = false
-var youtubeCollapsed = true
+var isCollapsed = {
+	soundcloud : true,
+	youtube : true,
+	mixcloud : true
+}
+
+//	Time allowed for the iframe to load
+var IFRAME_LOAD_TIME_ALLOWED = 60000
+//	Location of the error page
+var ERROR_PAGE_LOCATION = 'error.html'
+//	Errors shown
+var errors = {
+	WRONG_LINK : 'Wrong %s link!'
+}
+
+//	============================================================================================
+//	Players
+//	============================================================================================
 
 var updateYouTubeLink = function (url) {
 	//	Regex that matches a valid YouTube URL
@@ -21,10 +33,11 @@ var updateYouTubeLink = function (url) {
 		$('#youtube-iframe').attr('src', $('#youtube-iframe').attr('src').replace(yt_id_regex, video_id))
 	}
 	else {
-		console.log('Wrong YouTube link!')
-		$('#youtube-url').css('border-color', '#f00')
+		console.log(errors.WRONG_LINK, 'YouTube')
+		inputError('youtube')
 	}
 }
+
 var updateSoundCloudLink = function (url) {
 	//	My own. See docs at https://developers.soundcloud.com/docs
 	var SOUNDCLOUD_CLIENT_ID = '3e9dd75156ca9e500e4798241f6ac840'
@@ -34,7 +47,7 @@ var updateSoundCloudLink = function (url) {
 	//	Separate URL by slashes
 	var url_separates = url.split('/')
 	
-	if(/https?:\/\/soundcloud\.com/.test(url) && url_separates.length == 5) {
+	if(sc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
 		var artist = url_separates[3]
 		var title = url_separates[4]
 		//	Soundcloud developers API to get track information
@@ -44,10 +57,61 @@ var updateSoundCloudLink = function (url) {
 		})
 	}
 	else {
-		console.log('Wrong SoundCloud link!')
-		$('#soundcloud-url').css('border-color', '#f00')
+		console.log(errors.WRONG_LINK, 'SoundCloud')
+		inputError('soundcloud')
 	}
 }
+
+var updateMixcloudLink = function (url) {
+	//	Regex that matches a valid Mixcloud URL
+	var mc_regex = /^https?:\/\/www\.mixcloud\.com\/(.*)$/
+	//	Separate URL by slashes
+	var url_separates = url.split('/')
+
+	if(mc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
+		var src_attr = $('#mixcloud-iframe').attr('src').split('&')
+		for(var i in src_attr) {
+			if(/^feed=/.test(src_attr[i])) src_attr[i] = '&feed=' + encodeURIComponent(url)
+		}
+
+		$('#mixcloud-iframe').attr('src', src_attr.join('&'))
+	}
+	else {
+		console.log(errors.WRONG_LINK, 'Mixcloud')
+		inputError('mixcloud')
+	}
+}
+
+var inputError = function (platform) {
+	if(!$('#' + platform + '-url')) return
+	$('#' + platform + '-url').css('border-color', '#f00')
+}
+
+var showPlayer = function (platform) {
+	for(var p in isCollapsed) {
+		if(p != platform) isCollapsed[p] = true
+	}
+	console.log(isCollapsed)
+	$('.platform-link').removeClass('active')
+	if(isCollapsed[platform]) {
+		$('.player').hide()
+		$('#webpage-iframe').css('height', '84%')
+		$('#' + platform + '-player').show()
+		$('#' + platform + '-link').addClass('active')
+		isCollapsed[platform] = false
+	}
+	else {
+		$('.player').hide()
+		$('#' + platform + '-link').removeClass('active')
+		$('#webpage-iframe').css('height', '92%')
+		isCollapsed[platform] = true
+	}
+}
+
+//	============================================================================================
+//	Main iframe
+//	============================================================================================
+
 var loadPage = function (url) {
 	//	Regex that matches a URL
 	//	Source: http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
@@ -63,8 +127,8 @@ var loadPage = function (url) {
 		console.log('Loading %s', url)
 		//	Start timeout
 		iframeError = window.setTimeout(function () {
-			$('#webpage-iframe').attr('src', errorPageLocation)
-		}, iframeLoadTimeAllowed)
+			$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
+		}, IFRAME_LOAD_TIME_ALLOWED)
 	}
 	else {
 		console.log('Not an URL!')
@@ -73,30 +137,39 @@ var loadPage = function (url) {
 	}
 }
 
-var showPlayer = function(platform) {
-	$('.player').hide()
-	$('#webpage-iframe').css('height', '84%')
-	$('#' + platform + '-player').show()
-}
+//	============================================================================================
+//	When ready document
+//	============================================================================================
 
 $(document).ready(function () {
     $('#webpage-iframe').load(function () {
         window.clearTimeout(iframeError)
         iframeError = null
     })
-    //	Default: hides YouTube player, to show only the SoundCloud one
+
+    //	Show players
 	$('#youtube-link').click(function () {
 		showPlayer('youtube')
 	})
 	$('#soundcloud-link').click(function () {
 		showPlayer('soundcloud')
 	})
+	$('#mixcloud-link').click(function () {
+		showPlayer('mixcloud')
+	})
+
+	//	Load music
 	$('#youtube-button').click(function () {
 		updateYouTubeLink($('#youtube-url').val())
 	})
 	$('#soundcloud-button').click(function () {
 		updateSoundCloudLink($('#soundcloud-url').val())
 	})
+	$('#mixcloud-button').click(function () {
+		updateMixcloudLink($('#mixcloud-url').val())
+	})
+
+	//	Load webpage
 	$('#webpage-load').click(function () {
 		loadPage($('#webpage-url').val())
 	})

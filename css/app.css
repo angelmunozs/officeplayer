@@ -16,10 +16,6 @@
 	padding: 8px;
 	background-color: #fff;
 }
-.main-nav {
-	margin-top: 16px;
-	font-size: 0.8em;
-}
 .header-nav {
 	margin-top: 8px;
 	margin-bottom: 8px;
@@ -41,6 +37,21 @@ iframe {
 	vertical-align: middle;
 	display: table-row;
 }
-.youtube, .soundcloud {
+.youtube, .soundcloud, .mixcloud {
 	display: none;
+}
+.source-icon {
+	margin-top: 12px;
+	height: 26px;
+	width: 26px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+.platform-link {
+	transition: opacity 0.4s;
+	opacity: 1;
+}
+.active {
+	transition: opacity 0.4s;
+	opacity: 0.5;
 }

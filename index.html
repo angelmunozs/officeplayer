@@ -31,7 +31,7 @@
 		<div class="container-fluid">
 			<div class="main">
 				<!-- Webpage URL -->
-				<div class="col-xs-11 header-nav">
+				<div class="col-xs-10 header-nav">
 					<div class="input-group">
 						<div class="input-group-addon" id="webpage-load">
 							<span class="fa fa-globe"></span>
@@ -40,9 +40,10 @@
 					</div>
 				</div>
 				<!-- Navigation -->
-				<div class="col-xs-1 main-nav" align="center">
-					<a href="#" id="soundcloud-link"><i class="fa fa-soundcloud source-link"></i></a>
-					<a href="#" id="youtube-link"><i class="fa fa-youtube source-link"></i></a>
+				<div class="col-xs-2" align="center">
+					<a href="#" id="soundcloud-link" class="platform-link"><img class="source-icon" src="images/sc_big.png"></a>
+					<a href="#" id="youtube-link" class="platform-link"><img class="source-icon" src="images/yt_big.png"></a>
+					<a href="#" id="mixcloud-link" class="platform-link"><img class="source-icon" src="images/mc_big.png"></a>
 				</div>
 				<!-- Web page -->
 				<div id="webpage-container" class="col-xs-12">
@@ -78,6 +79,20 @@
 					</div>
 					<div class="col-xs-12" style="margin-top:10px;" id="soundcloud-player-part-2">
 						<iframe id="soundcloud-iframe" height="20" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=00aabb&inverse=false&auto_play=false&show_user=true"></iframe>
+					</div>
+				</div>
+				<!-- Mixcloud -->
+				<div class="mixcloud player col-xs-12" id="mixcloud-player">
+					<div class="col-xs-12" id="mixcloud-player-part-1">
+						<div class="input-group col-xs-12">
+							<div class="input-group-addon" id="mixcloud-button">
+								<span class="glyphicon glyphicon-play"></span>
+							</div>
+							<input type="text" id="mixcloud-url" class="form-control" placeholder="mixcloud URL (example: https://www.mixcloud.com/djamsy/enero-2015/)">
+						</div>
+					</div>
+					<div class="col-xs-12" style="margin-top:10px;" id="mixcloud-player-part-2">
+						<iframe id="mixcloud-iframe" src="https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fdjamsy%2Fenero-2015%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0" height="60"></iframe>
 					</div>
 				</div>
 			</footer>
