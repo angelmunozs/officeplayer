@@ -5,6 +5,9 @@
 	font-size: 1.7em;
 	color: #333;
 }
+.main {
+	height: 100%;
+}
 .input-group-addon:hover {
 	cursor: pointer;
 	background-color: #ccc;
@@ -21,6 +24,8 @@
 }
 .header-nav {
 	padding: 0px;
+	position: absolute;
+	width: 100%;
 }
 input {
 	padding: 0px 10px 0px 10px;
@@ -31,7 +36,11 @@ input {
 	padding: 0px 5px 0px 5px;
 }
 #webpage-container {
+	top: 34px;
 	padding: 0;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
 }
 .input-group-addon {
 	border-radius: 0px;
