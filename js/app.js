@@ -95,7 +95,7 @@ var inputOk = function (platform) {
 }
 
 var showPlayer = function (platform) {
-	$('.navbar-fixed-bottom').show()
+	$('.navbar-fixed-bottom').fadeIn()
 	for(var p in isCollapsed) {
 		if(p != platform) isCollapsed[p] = true
 	}
@@ -103,7 +103,7 @@ var showPlayer = function (platform) {
 	$('.platform-addon').removeClass('active')
 	if(isCollapsed[platform]) {
 		$('.player').hide()
-		$('#' + platform + '-player').show()
+		$('#' + platform + '-player').fadeIn()
 		$('#' + platform + '-link').addClass('active')
 		$('#' + platform + '-addon').addClass('active')
 		isCollapsed[platform] = false
@@ -139,6 +139,7 @@ var loadPage = function (url) {
 		inputOk('webpage')
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
+		iframeIsLoading()
 		//	Start timeout
 		// iframeError = window.setTimeout(function () {
 		// 	$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
@@ -150,6 +151,14 @@ var loadPage = function (url) {
 	}
 }
 
+var iframeIsLoading = function () {
+	$('#webpage-button').html('<span class="fa fa-spinner fa-spin"></span>')
+}
+
+var iframeIsLoaded = function () {
+	$('#webpage-button').html('<span class="fa fa-globe"></span>')
+}
+
 //	============================================================================================
 //	When ready document
 //	============================================================================================
@@ -158,12 +167,13 @@ $(document).ready(function () {
 
 	$('.navbar-fixed-bottom').hide()
 
-	// var iframe = $('#webpage-iframe')
-	//   iframe.load(function () {
-	//   		$('#webpage-url').val(iframe.contentWindow.location.href)
-	//		window.clearTimeout(iframeError)
-	//		iframeError = null
-	//   })
+	var iframe = $('#webpage-iframe')
+	iframe.load(function () {
+		iframeIsLoaded()
+		//	$('#webpage-url').val(iframe.contentWindow.location.href)
+		//	window.clearTimeout(iframeError)
+		//	iframeError = null
+	})
 
 	var webpageInput = $('#webpage-url')
 	var youtubeInput = $('#youtube-url')
