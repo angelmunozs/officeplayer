@@ -24,6 +24,7 @@ Office Player uses a few open source projects to work properly:
 
 ### To do
 
+ - Change favicon and title dinamically
  - Show a message when the iframe fails to load
  - Add compatibility with soundcloud playlists
  - Add compatibility with YouTube playlists
