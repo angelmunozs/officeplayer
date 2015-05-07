@@ -14,9 +14,6 @@ html, body {
 	cursor: pointer;
 	background-color: #ccc;
 }
-.main {
-	position: fixed;
-}
 .footer {
 	bottom: 0;
 	position: fixed;
