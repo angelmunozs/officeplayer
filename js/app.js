@@ -46,7 +46,7 @@ var updateSoundCloudLink = function (url) {
 	var sc_regex = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/
 	//	Separate URL by slashes
 	var url_separates = url.split('/')
-	
+
 	if(sc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
 		inputOk('youtube')
 		var artist = url_separates[3]
@@ -95,21 +95,24 @@ var inputOk = function (platform) {
 }
 
 var showPlayer = function (platform) {
+	$('.navbar-fixed-bottom').show()
 	for(var p in isCollapsed) {
 		if(p != platform) isCollapsed[p] = true
 	}
 	$('.platform-link').removeClass('active')
+	$('.platform-addon').removeClass('active')
 	if(isCollapsed[platform]) {
 		$('.player').hide()
-		$('#webpage-iframe').css('height', '84%')
 		$('#' + platform + '-player').show()
 		$('#' + platform + '-link').addClass('active')
+		$('#' + platform + '-addon').addClass('active')
 		isCollapsed[platform] = false
 	}
 	else {
+		$('.navbar-fixed-bottom').hide()
 		$('.player').hide()
 		$('#' + platform + '-link').removeClass('active')
-		$('#webpage-iframe').css('height', '92%')
+		$('#' + platform + '-addon').removeClass('active')
 		isCollapsed[platform] = true
 	}
 }
@@ -132,6 +135,7 @@ var loadPage = function (url) {
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
 		}
+		$('#webpage-url').val(url)
 		inputOk('webpage')
 		$('#webpage-iframe').attr('src', url)
 		console.log('Loading %s', url)
@@ -151,6 +155,9 @@ var loadPage = function (url) {
 //	============================================================================================
 
 $(document).ready(function () {
+
+	$('.navbar-fixed-bottom').hide()
+
 	// var iframe = $('#webpage-iframe')
 	//   iframe.load(function () {
 	//   		$('#webpage-url').val(iframe.contentWindow.location.href)
