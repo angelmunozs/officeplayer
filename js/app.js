@@ -9,6 +9,8 @@ var isCollapsed = {
 
 //	Time allowed for the iframe to load, before showing error page
 var IFRAME_LOAD_TIME_ALLOWED = 60000
+//	Page title
+var BASE_TITLE = 'Office Player'
 //	Location of the error page
 var ERROR_PAGE_LOCATION = 'error.html'
 //	Errors shown
@@ -131,15 +133,20 @@ var loadPage = function (url) {
 		if(url.indexOf('officeplayer') != -1) {
 			console.log('Isn\'t one Office Player enough?')
 			inputError('webpage')
+			return
 		}
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
 		}
+		//	Pass parsed URL to input value
 		$('#webpage-url').val(url)
+		//	Reset default input style
 		inputOk('webpage')
+		//	Update src attribute
 		$('#webpage-iframe').attr('src', url)
-		console.log('Loading %s', url)
+		//	Show loader
 		iframeIsLoading()
+		var encodedURL = encodeURIComponent(url)
 		//	Start timeout
 		// iframeError = window.setTimeout(function () {
 		// 	$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
@@ -148,6 +155,20 @@ var loadPage = function (url) {
 	else {
 		console.log('Not an URL!')
 		inputError('webpage')
+	}
+}
+
+var updateTitle = function (data) {
+	return
+	if(data && data.length) {
+		$('#title').html(data + ' | ' + BASE_TITLE)
+	}
+}
+
+var updateFavicon = function (data) {
+	return
+	if(data && data.length) {
+		$('#favicon').attr('href', favicon)
 	}
 }
 
@@ -170,6 +191,8 @@ $(document).ready(function () {
 	var iframe = $('#webpage-iframe')
 	iframe.load(function () {
 		iframeIsLoaded()
+		//	updateTitle($('#webpage-iframe').contents().find("title").html())
+		//	updateFavicon($('#webpage-iframe').contents().find("link").html())
 		//	$('#webpage-url').val(iframe.contentWindow.location.href)
 		//	window.clearTimeout(iframeError)
 		//	iframeError = null
