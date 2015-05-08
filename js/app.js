@@ -15,6 +15,9 @@ var defaults = {
 }
 //	Platform information
 var platforms = {
+	webpage : {
+		times_clicked : 0
+	},
 	youtube: {
 		full_name : 'YouTube',
 		iframe_link : localStorage.lastYouTubeEmbedLink || defaults.youtube.EMBED_LINK,
