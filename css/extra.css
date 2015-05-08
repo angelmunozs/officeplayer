@@ -2,8 +2,8 @@ body {
 	background-color: #eee;
 	font-family: Arial;
 	display: table;
-	width: 95%;
-	height: 95%;
+	width: 100%;
+	height: 100%;
 }
 .centered-in-page {
 	color: #aaa;
@@ -36,4 +36,7 @@ ol li {
 #intro ol {
 	margin-top: 30px;
 	font-size: 0.8em;
+}
+.space {
+	height: 50px;
 }

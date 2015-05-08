@@ -1,6 +1,12 @@
+.container, .container-fluid {
+	padding: 0px;
+}
 .source-link {
 	font-size: 1.7em;
 	color: #333;
+}
+.main {
+	height: 100%;
 }
 .input-group-addon:hover {
 	cursor: pointer;
@@ -13,20 +19,35 @@
 }
 .player {
 	width: 100%;
-	padding: 8px;
-	background-color: #fff;
+	padding: 16px 0px 16px 0px;
+	background-color: rgba(255, 255 , 255, 0.7);
 }
 .header-nav {
-	margin-top: 8px;
-	margin-bottom: 8px;
+	padding: 0px;
+	position: absolute;
+	width: 100%;
+}
+input {
+	padding: 0px 10px 0px 10px;
+	border-radius: 0px;
 }
 .main-nav a {
 	display: inline;
 	padding: 0px 5px 0px 5px;
 }
+#webpage-container {
+	top: 34px;
+	padding: 0;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
+.input-group-addon {
+	border-radius: 0px;
+}
 #webpage-iframe {
-	height: 92%;
 	padding: 0px;
+	height: 100%;
 }
 iframe {
 	border: none;
@@ -41,18 +62,14 @@ iframe {
 	display: none;
 }
 .source-icon {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	height: 26px;
-	width: 26px;
-	margin-left: 3px;
-	margin-right: 3px;
+	height: 20px;
+	width: 20px;
 }
 .platform-link {
-	transition: opacity 0.2s;
-	opacity: 1;
+	transition: background-color 0.2s;
+	background-color: #eee;
 }
 .active {
-	transition: opacity 0.2s;
-	opacity: 0.5;
+	transition: background-color 0.2s;
+	background-color: #ccc;
 }

@@ -38,19 +38,23 @@
 		<div class="container-fluid">
 			<div class="main">
 				<!-- Webpage URL -->
-				<div class="col-xs-12 col-md-10 header-nav">
+				<div class="col-xs-12 header-nav">
 					<div class="input-group">
 						<div class="input-group-addon" id="webpage-button">
 							<span class="fa fa-globe"></span>
 						</div>
 						<input type="text" class="form-control" id="webpage-url" placeholder="URL from webpage (example: http://www.universidad.es)" autofocus/>
+						<!-- Supported platforms -->
+						<a href="#" id="soundcloud-link" class="input-group-addon platform-link">
+							<div class="platform-addon" id="soundcloud-addon"><img class="source-icon" src="images/sc_big.png"></div>
+						</a>
+						<a href="#" id="youtube-link" class="input-group-addon platform-link">
+							<div class="platform-addon" id="youtube-addon"><img class="source-icon" src="images/yt_big.png"></div>
+						</a>
+						<a href="#" id="mixcloud-link" class="input-group-addon platform-link">
+							<div class="platform-addon" id="mixcloud-addon"><img class="source-icon" src="images/mc_big.png"></div>
+						</a>
 					</div>
-				</div>
-				<!-- Navigation -->
-				<div class="col-xs-12 col-md-2" align="center">
-					<a href="#" id="soundcloud-link" class="platform-link"><img class="source-icon" src="images/sc_big.png"></a>
-					<a href="#" id="youtube-link" class="platform-link"><img class="source-icon" src="images/yt_big.png"></a>
-					<a href="#" id="mixcloud-link" class="platform-link"><img class="source-icon" src="images/mc_big.png"></a>
 				</div>
 				<!-- Web page -->
 				<div id="webpage-container" class="col-xs-12">
@@ -59,7 +63,7 @@
 					</iframe>
 				</div>
 			</div>
-			<footer>
+			<navbar class="navbar navbar-default navbar-fixed-bottom">
 				<!-- YouTube -->
 				<div class="youtube player col-xs-12" id="youtube-player">
 					<div class="col-xs-12" id="youtube-player-part-1">
@@ -102,7 +106,7 @@
 						<iframe id="mixcloud-iframe" src="https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fmodek%2Fmodek-mixtape-for-off-radio-3-spain%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0" height="60"></iframe>
 					</div>
 				</div>
-			</footer>
+			</navbar>
 		</div>
 	</body>
 </html>

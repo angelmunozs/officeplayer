@@ -9,6 +9,8 @@ var isCollapsed = {
 
 //	Time allowed for the iframe to load, before showing error page
 var IFRAME_LOAD_TIME_ALLOWED = 60000
+//	Page title
+var BASE_TITLE = 'Office Player'
 //	Location of the error page (RELATIVE path to index.html)
 var ERROR_PAGE_LOCATION = 'error.html'
 //	Errors shown
@@ -46,7 +48,7 @@ var updateSoundCloudLink = function (url) {
 	var sc_regex = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/
 	//	Separate URL by slashes
 	var url_separates = url.split('/')
-	
+
 	if(sc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
 		inputOk('youtube')
 		var artist = url_separates[3]
@@ -95,21 +97,24 @@ var inputOk = function (platform) {
 }
 
 var showPlayer = function (platform) {
+	$('.navbar-fixed-bottom').fadeIn()
 	for(var p in isCollapsed) {
 		if(p != platform) isCollapsed[p] = true
 	}
 	$('.platform-link').removeClass('active')
+	$('.platform-addon').removeClass('active')
 	if(isCollapsed[platform]) {
 		$('.player').hide()
-		$('#webpage-iframe').css('height', '84%')
-		$('#' + platform + '-player').show()
+		$('#' + platform + '-player').fadeIn()
 		$('#' + platform + '-link').addClass('active')
+		$('#' + platform + '-addon').addClass('active')
 		isCollapsed[platform] = false
 	}
 	else {
+		$('.navbar-fixed-bottom').hide()
 		$('.player').hide()
 		$('#' + platform + '-link').removeClass('active')
-		$('#webpage-iframe').css('height', '92%')
+		$('#' + platform + '-addon').removeClass('active')
 		isCollapsed[platform] = true
 	}
 }
@@ -133,9 +138,15 @@ var loadPage = function (url) {
 		if(!no_http_regex.test(url)) {
 			url = 'http://' + url
 		}
+		//	Pass parsed URL to input value
+		$('#webpage-url').val(url)
+		//	Reset default input style
 		inputOk('webpage')
+		//	Update src attribute
 		$('#webpage-iframe').attr('src', url)
-		console.log('Loading %s', url)
+		//	Show loader
+		iframeIsLoading()
+		var encodedURL = encodeURIComponent(url)
 		//	Start timeout
 		// iframeError = window.setTimeout(function () {
 		// 	$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
@@ -147,17 +158,45 @@ var loadPage = function (url) {
 	}
 }
 
+var updateTitle = function (data) {
+	return
+	if(data && data.length) {
+		$('#title').html(data + ' | ' + BASE_TITLE)
+	}
+}
+
+var updateFavicon = function (data) {
+	return
+	if(data && data.length) {
+		$('#favicon').attr('href', favicon)
+	}
+}
+
+var iframeIsLoading = function () {
+	$('#webpage-button').html('<span class="fa fa-spinner fa-spin"></span>')
+}
+
+var iframeIsLoaded = function () {
+	$('#webpage-button').html('<span class="fa fa-globe"></span>')
+}
+
 //	============================================================================================
 //	When ready document
 //	============================================================================================
 
 $(document).ready(function () {
-	// var iframe = $('#webpage-iframe')
-	//   iframe.load(function () {
-	//   		$('#webpage-url').val(iframe.contentWindow.location.href)
-	//		window.clearTimeout(iframeError)
-	//		iframeError = null
-	//   })
+
+	$('.navbar-fixed-bottom').hide()
+
+	var iframe = $('#webpage-iframe')
+	iframe.load(function () {
+		iframeIsLoaded()
+		//	updateTitle($('#webpage-iframe').contents().find("title").html())
+		//	updateFavicon($('#webpage-iframe').contents().find("link").html())
+		//	$('#webpage-url').val(iframe.contentWindow.location.href)
+		//	window.clearTimeout(iframeError)
+		//	iframeError = null
+	})
 
 	var webpageInput = $('#webpage-url')
 	var youtubeInput = $('#youtube-url')
