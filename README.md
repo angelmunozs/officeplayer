@@ -10,9 +10,9 @@ Hosted at [officeplayer.com](http://www.officeplayer.com "Office Player")
 ### Instructions
 
  1. Paste a website link on the top text input, then click on the button on its left to load it.
- 2. Select your desired player from the top right links.
+ 2. Select your desired player from the top right links. The player will be opened in the bottom of the page.
  3. Paste a link to a song you'd like to listen, then click on the button on its left to load it.
- 4. Click Play and enjoy listening to music while you do your job.
+ 4. Click Play and enjoy listening to music discreetly while you do your job!
 
 ### Tech
 
@@ -24,6 +24,7 @@ Office Player uses a few open source projects to work properly:
 
 ### To do
 
+ - Web storage of last tracks played
  - Change favicon and title dinamically
  - Show a message when the iframe fails to load
  - Add compatibility with soundcloud playlists

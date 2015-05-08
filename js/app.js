@@ -33,6 +33,7 @@ var updateYouTubeLink = function (url) {
 		var video_id = url.match(yt_id_regex)
 		//	Replace video ID
 		$('#youtube-iframe').attr('src', $('#youtube-iframe').attr('src').replace(yt_id_regex, video_id))
+		iframeIsLoading('youtube')
 	}
 	else {
 		console.log(errors.WRONG_LINK, 'YouTube')
@@ -57,6 +58,7 @@ var updateSoundCloudLink = function (url) {
 		$.get('http://api.soundcloud.com/resolve.json?url=http://soundcloud.com/' + artist + '/' + title + '&client_id=' + SOUNDCLOUD_CLIENT_ID, function (data) {
 			$('#soundcloud-url').css('border-color', '#ccc')
 			$('#soundcloud-iframe').attr('src', $('#soundcloud-iframe').attr('src').replace(/[0-9]{9,9}/, data.id))
+			iframeIsLoading('soundcloud')
 		})
 	}
 	else {
@@ -77,8 +79,8 @@ var updateMixcloudLink = function (url) {
 		for(var i in src_attr) {
 			if(/^feed=/.test(src_attr[i])) src_attr[i] = '&feed=' + encodeURIComponent(url) + (url[url.length - 1] == '/' ? '' : '%2F')
 		}
-		console.log(src_attr.join('&'))
 		$('#mixcloud-iframe').attr('src', src_attr.join('&'))
+		iframeIsLoading('mixcloud')
 	}
 	else {
 		console.log(errors.WRONG_LINK, 'Mixcloud')
@@ -145,7 +147,7 @@ var loadPage = function (url) {
 		//	Update src attribute
 		$('#webpage-iframe').attr('src', url)
 		//	Show loader
-		iframeIsLoading()
+		iframeIsLoading('webpage')
 		var encodedURL = encodeURIComponent(url)
 		//	Start timeout
 		// iframeError = window.setTimeout(function () {
@@ -172,12 +174,12 @@ var updateFavicon = function (data) {
 	}
 }
 
-var iframeIsLoading = function () {
-	$('#webpage-button').html('<span class="fa fa-spinner fa-spin"></span>')
+var iframeIsLoading = function (section) {
+	$('#' + section + '-button').html('<span class="fa fa-spinner fa-spin"></span>')
 }
 
-var iframeIsLoaded = function () {
-	$('#webpage-button').html('<span class="fa fa-globe"></span>')
+var iframeIsLoaded = function (section) {
+	$('#' + section + '-button').html('<span class="fa fa-globe"></span>')
 }
 
 //	============================================================================================
@@ -188,20 +190,34 @@ $(document).ready(function () {
 
 	$('.navbar-fixed-bottom').hide()
 
-	var iframe = $('#webpage-iframe')
-	iframe.load(function () {
-		iframeIsLoaded()
+	//	Variables
+	var webpageIframe = $('#webpage-iframe')
+	var youtubeIframe = $('#youtube-iframe')
+	var soundcloudIframe = $('#soundcloud-iframe')
+	var mixcloudIframe = $('#mixcloud-iframe')
+	var webpageInput = $('#webpage-url')
+	var youtubeInput = $('#youtube-url')
+	var soundcloudInput = $('#soundcloud-url')
+	var mixcloudInput = $('#mixcloud-url')
+
+	//	Load events
+	webpageIframe.load(function () {
+		iframeIsLoaded('webpage')
 		//	updateTitle($('#webpage-iframe').contents().find("title").html())
 		//	updateFavicon($('#webpage-iframe').contents().find("link").html())
 		//	$('#webpage-url').val(iframe.contentWindow.location.href)
 		//	window.clearTimeout(iframeError)
 		//	iframeError = null
 	})
-
-	var webpageInput = $('#webpage-url')
-	var youtubeInput = $('#youtube-url')
-	var soundcloudInput = $('#soundcloud-url')
-	var mixcloudInput = $('#mixcloud-url')
+	youtubeIframe.load(function () {
+		iframeIsLoaded('youtube')
+	})	
+	soundcloudIframe.load(function () {
+		iframeIsLoaded('soundcloud')
+	})	
+	mixcloudIframe.load(function () {
+		iframeIsLoaded('mixcloud')
+	})	
 
     //	Show players
 	$('#youtube-link').click(function () {
@@ -214,11 +230,10 @@ $(document).ready(function () {
 		showPlayer('mixcloud')
 	})
 
-	//	Load webpage
+	//	Click events
 	$('#webpage-button').click(function () {
 		loadPage(webpageInput.val())
 	})
-	//	Load music
 	$('#youtube-button').click(function () {
 		updateYouTubeLink(youtubeInput.val())
 	})
@@ -229,7 +244,7 @@ $(document).ready(function () {
 		updateMixcloudLink(mixcloudInput.val())
 	})
 
-	//	On 'enter' key press
+	//	'Enter' key events
 	webpageInput.keyup(function (event) {
 		if(event.keyCode == 13){
 			loadPage(webpageInput.val())
@@ -250,5 +265,4 @@ $(document).ready(function () {
 			updateMixcloudLink(mixcloudInput.val())
 		}
 	})
-
 })
