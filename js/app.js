@@ -1,22 +1,37 @@
-//	Javascript Timeout, activated when an iframe is called to load
-var iframeError
-//	Flags to collapse players
-var isCollapsed = {
-	soundcloud : true,
-	youtube : true,
-	mixcloud : true
+//	Platform information
+var platforms = {
+	youtube: {
+		clear_link : 'https://www.youtube.com/watch?v=XJOpiTCEM4M',
+		iframe_link : 'https://www.youtube.com/embed/XJOpiTCEM4M?rel=0&showinfo=0',
+		times_clicked : 0,
+		is_collapsed : false
+	},
+	soundcloud: {
+		clear_link : 'https://soundcloud.com/djamsy/hold-on',
+		iframe_link : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=ff5500&inverse=false&auto_play=false&show_user=true',
+		times_clicked : 0,
+		is_collapsed : false
+	},
+	mixcloud: {
+		clear_link : 'https://www.mixcloud.com/modek/modek-mixtape-for-off-radio-3-spain/',
+		iframe_link : 'https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fmodek%2Fmodek-mixtape-for-off-radio-3-spain%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0',
+		times_clicked : 0,
+		is_collapsed : false
+	}
 }
-
-//	Time allowed for the iframe to load, before showing error page
+//	Time allowed for the iframe to load, before showing error page (Currently unused)
 var IFRAME_LOAD_TIME_ALLOWED = 60000
-//	Page title
+//	Page title (Currently unused)
 var BASE_TITLE = 'Office Player'
-//	Location of the error page (RELATIVE path to index.html)
+//	Location of the error page (RELATIVE path to index.html) (Currently unused)
 var ERROR_PAGE_LOCATION = 'error.html'
 //	Errors shown
 var errors = {
 	WRONG_LINK : 'Wrong %s link!'
 }
+
+//	Javascript Timeout, activated when an iframe is called to load
+var iframeError
 
 //	============================================================================================
 //	Players
@@ -88,36 +103,26 @@ var updateMixcloudLink = function (url) {
 	}
 }
 
-var inputError = function (platform) {
-	if(!$('#' + platform + '-url')) return
-	$('#' + platform + '-url').css('border-color', '#f00')
-}
-
-var inputOk = function (platform) {
-	if(!$('#' + platform + '-url')) return
-	$('#' + platform + '-url').css('border-color', '#ccc')
-}
-
 var showPlayer = function (platform) {
 	$('.navbar-fixed-bottom').fadeIn()
-	for(var p in isCollapsed) {
-		if(p != platform) isCollapsed[p] = true
+	for(var p in platforms) {
+		if(p != platform) platforms[p].is_collapsed = true
 	}
 	$('.platform-link').removeClass('active')
 	$('.platform-addon').removeClass('active')
-	if(isCollapsed[platform]) {
+	if(platforms[platform].is_collapsed) {
 		$('.player').hide()
 		$('#' + platform + '-player').fadeIn()
 		$('#' + platform + '-link').addClass('active')
 		$('#' + platform + '-addon').addClass('active')
-		isCollapsed[platform] = false
+		platforms[platform].is_collapsed = false
 	}
 	else {
 		$('.navbar-fixed-bottom').hide()
 		$('.player').hide()
 		$('#' + platform + '-link').removeClass('active')
 		$('#' + platform + '-addon').removeClass('active')
-		isCollapsed[platform] = true
+		platforms[platform].is_collapsed = true
 	}
 }
 
@@ -160,6 +165,29 @@ var loadPage = function (url) {
 	}
 }
 
+//	============================================================================================
+//	Generic functions
+//	============================================================================================
+
+var inputError = function (platform) {
+	if(!$('#' + platform + '-url')) return
+	$('#' + platform + '-url').css('border-color', '#f00')
+}
+
+var inputOk = function (platform) {
+	if(!$('#' + platform + '-url')) return
+	$('#' + platform + '-url').css('border-color', '#ccc')
+}
+
+var iframeIsLoading = function (platform) {
+	platforms[platform].times_clicked++
+	$('#' + platform + '-button').html('<span class="fa fa-spinner fa-spin"></span>')
+}
+
+var iframeIsLoaded = function (platform) {
+	$('#' + platform + '-button').html('<span class="fa fa-globe"></span>')
+}
+
 var updateTitle = function (data) {
 	return
 	if(data && data.length) {
@@ -172,14 +200,6 @@ var updateFavicon = function (data) {
 	if(data && data.length) {
 		$('#favicon').attr('href', favicon)
 	}
-}
-
-var iframeIsLoading = function (section) {
-	$('#' + section + '-button').html('<span class="fa fa-spinner fa-spin"></span>')
-}
-
-var iframeIsLoaded = function (section) {
-	$('#' + section + '-button').html('<span class="fa fa-globe"></span>')
 }
 
 //	============================================================================================

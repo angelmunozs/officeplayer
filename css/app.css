@@ -20,7 +20,7 @@
 .player {
 	width: 100%;
 	padding: 16px 0px 16px 0px;
-	background-color: rgba(255, 255 , 255, 0.7);
+	background-color: #eee;
 }
 .header-nav {
 	padding: 0px;
