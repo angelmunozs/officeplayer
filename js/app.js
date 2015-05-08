@@ -1,23 +1,35 @@
+//	Default songs to be loaded
+var defaults = {
+	youtube : {
+		CLEAR_LINK : 'https://www.youtube.com/watch?v=XJOpiTCEM4M',
+		EMBED_LINK : 'https://www.youtube.com/embed/XJOpiTCEM4M?rel=0&showinfo=0'
+	},
+	soundcloud : {
+		CLEAR_LINK : 'https://soundcloud.com/djamsy/hold-on',
+		EMBED_LINK : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=ff5500&inverse=false&auto_play=false&show_user=true'
+	},
+	mixcloud : {
+		CLEAR_LINK : 'https://www.mixcloud.com/modek/modek-mixtape-for-off-radio-3-spain/',
+		EMBED_LINK : 'https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fmodek%2Fmodek-mixtape-for-off-radio-3-spain%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0'
+	}
+}
 //	Platform information
 var platforms = {
 	youtube: {
 		full_name : 'YouTube',
-		clear_link : 'https://www.youtube.com/watch?v=XJOpiTCEM4M',
-		iframe_link : 'https://www.youtube.com/embed/XJOpiTCEM4M?rel=0&showinfo=0',
+		iframe_link : localStorage.lastYouTubeEmbedLink || defaults.youtube.EMBED_LINK,
 		times_clicked : 0,
 		is_collapsed : true
 	},
 	soundcloud: {
 		full_name : 'SoundCloud',
-		clear_link : 'https://soundcloud.com/djamsy/hold-on',
-		iframe_link : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=ff5500&inverse=false&auto_play=false&show_user=true',
+		iframe_link : localStorage.lastSoundCloudEmbedLink || defaults.soundcloud.EMBED_LINK,
 		times_clicked : 0,
 		is_collapsed : true
 	},
 	mixcloud: {
 		full_name : 'MixCloud',
-		clear_link : 'https://www.mixcloud.com/modek/modek-mixtape-for-off-radio-3-spain/',
-		iframe_link : 'https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fmodek%2Fmodek-mixtape-for-off-radio-3-spain%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0',
+		iframe_link : localStorage.lastMixCloudEmbedLink || defaults.mixcloud.EMBED_LINK,
 		times_clicked : 0,
 		is_collapsed : true
 	}
@@ -45,13 +57,16 @@ var updateYouTubeLink = function (url) {
 	//	Source: http://stackoverflow.com/questions/3717115/regular-expression-for-youtube-links
 	var yt_regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
 	if(yt_regex.test(url)) {
+		var iframe = $('#youtube-iframe')
 		inputOk('youtube')
 		//	Regex that matches a YouTube video ID from a YouTube video URL
 		var yt_id_regex = /[a-zA-Z0-9_-]{11,11}/
 		var video_id = url.match(yt_id_regex)
 		//	Replace video ID
-		$('#youtube-iframe').attr('src', $('#youtube-iframe').attr('src').replace(yt_id_regex, video_id))
+		iframe.attr('src', iframe.attr('src').replace(yt_id_regex, video_id))
 		iframeIsLoading('youtube')
+		//	Web storage
+		localStorage.lastYouTubeEmbedLink = iframe.attr('src')
 	}
 	else {
 		console.log(errors.WRONG_LINK, 'YouTube')
@@ -70,13 +85,16 @@ var updateSoundCloudLink = function (url) {
 
 	if(sc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
 		inputOk('youtube')
+		var iframe = $('#soundcloud-iframe')
 		var artist = url_separates[3]
 		var title = url_separates[4]
 		//	Soundcloud developers API to get track information
 		$.get('http://api.soundcloud.com/resolve.json?url=http://soundcloud.com/' + artist + '/' + title + '&client_id=' + SOUNDCLOUD_CLIENT_ID, function (data) {
 			$('#soundcloud-url').css('border-color', '#ccc')
-			$('#soundcloud-iframe').attr('src', $('#soundcloud-iframe').attr('src').replace(/[0-9]{9,9}/, data.id))
+			iframe.attr('src', iframe.attr('src').replace(/[0-9]{9,9}/, data.id))
 			iframeIsLoading('soundcloud')
+			//	Web storage
+			localStorage.lastSoundCloudEmbedLink = iframe.attr('src')
 		})
 	}
 	else {
@@ -93,12 +111,15 @@ var updateMixcloudLink = function (url) {
 
 	if(mc_regex.test(url) && url_separates.length > 4 && url_separates.length < 7) {
 		inputOk('mixcloud')
-		var src_attr = $('#mixcloud-iframe').attr('src').split('&')
+		var iframe = $('#mixcloud-iframe')
+		var src_attr = iframe.attr('src').split('&')
 		for(var i in src_attr) {
 			if(/^feed=/.test(src_attr[i])) src_attr[i] = '&feed=' + encodeURIComponent(url) + (url[url.length - 1] == '/' ? '' : '%2F')
 		}
-		$('#mixcloud-iframe').attr('src', src_attr.join('&'))
+		iframe.attr('src', src_attr.join('&'))
 		iframeIsLoading('mixcloud')
+		//	Web storage
+		localStorage.lastMixCloudEmbedLink = iframe.attr('src')
 	}
 	else {
 		console.log(errors.WRONG_LINK, 'Mixcloud')
