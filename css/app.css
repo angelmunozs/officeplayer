@@ -73,3 +73,12 @@ iframe {
 	transition: background-color 0.2s;
 	background-color: #ccc;
 }
+#soundcloud-iframe {
+	height: 60px;
+}
+#youtube-iframe {
+	height: 60px;
+}
+#mixcloud-iframe {
+	height: 60px;
+}

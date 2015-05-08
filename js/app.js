@@ -1,18 +1,21 @@
 //	Platform information
 var platforms = {
 	youtube: {
+		full_name : 'YouTube',
 		clear_link : 'https://www.youtube.com/watch?v=XJOpiTCEM4M',
 		iframe_link : 'https://www.youtube.com/embed/XJOpiTCEM4M?rel=0&showinfo=0',
 		times_clicked : 0,
 		is_collapsed : true
 	},
 	soundcloud: {
+		full_name : 'SoundCloud',
 		clear_link : 'https://soundcloud.com/djamsy/hold-on',
 		iframe_link : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=ff5500&inverse=false&auto_play=false&show_user=true',
 		times_clicked : 0,
 		is_collapsed : true
 	},
 	mixcloud: {
+		full_name : 'MixCloud',
 		clear_link : 'https://www.mixcloud.com/modek/modek-mixtape-for-off-radio-3-spain/',
 		iframe_link : 'https://www.mixcloud.com/widget/iframe/?embed_type=widget_standard&embed_uuid=37b4ad1a-39be-4f76-a3a7-89eb741e8e2e&feed=https%3A%2F%2Fwww.mixcloud.com%2Fmodek%2Fmodek-mixtape-for-off-radio-3-spain%2F&hide_artwork=1&hide_cover=1&hide_tracklist=1&light=1&mini=1&replace=0',
 		times_clicked : 0,
@@ -104,15 +107,24 @@ var updateMixcloudLink = function (url) {
 }
 
 var showPlayer = function (platform) {
-	$('.navbar-fixed-bottom').fadeIn()
+	//	Load platform default URL if not loaded yet
+	//	Flag variable postincremented
+	if(platforms[platform].times_clicked++ === 0) {
+		console.log('Loading %s iframe', platforms[platform].full_name)
+		$('#' + platform + '-iframe').attr('src', platforms[platform].iframe_link)
+	}
+	//	Show navbar
+	$('.navbar-fixed-bottom').show()
+	//	Collapse everyone else
 	for(var p in platforms) {
 		if(p != platform) platforms[p].is_collapsed = true
 	}
+	//	Set everyone as inactive
 	$('.platform-link').removeClass('active')
 	$('.platform-addon').removeClass('active')
 	if(platforms[platform].is_collapsed) {
 		$('.player').hide()
-		$('#' + platform + '-player').fadeIn()
+		$('#' + platform + '-player').show()
 		$('#' + platform + '-link').addClass('active')
 		$('#' + platform + '-addon').addClass('active')
 		platforms[platform].is_collapsed = false

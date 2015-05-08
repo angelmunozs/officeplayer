@@ -6,7 +6,6 @@ body {
 	height: 100%;
 }
 .centered-in-page {
-	color: #aaa;
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -39,4 +38,7 @@ ol li {
 }
 .space {
 	height: 50px;
+}
+#intro {
+	color: #aaa;
 }
