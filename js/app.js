@@ -169,7 +169,7 @@ var showPlayer = function (platform) {
 var loadPage = function (url) {
 	//	Regex that matches a URL
 	//	Source: http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
-	var url_regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+	var url_regex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-\?]*)*\/?$/
 	//	Regex that matches a URL starting with 'http://' or 'https://'
 	var no_http_regex = /^https?\:\/\//
 	if(url_regex.test(url)) {
