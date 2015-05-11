@@ -1,12 +1,12 @@
 //	Default songs to be loaded
 var defaults = {
 	youtube : {
-		CLEAR_LINK : 'https://www.youtube.com/watch?v=XJOpiTCEM4M',
-		EMBED_LINK : 'https://www.youtube.com/embed/XJOpiTCEM4M?rel=0&showinfo=0'
+		CLEAR_LINK : 'https://www.youtube.com/watch?v=BLya0SiphU8',
+		EMBED_LINK : 'https://www.youtube.com/embed/BLya0SiphU8?rel=0&showinfo=0'
 	},
 	soundcloud : {
-		CLEAR_LINK : 'https://soundcloud.com/djamsy/hold-on',
-		EMBED_LINK : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/136825877&color=ff5500&inverse=false&auto_play=false&show_user=true'
+		CLEAR_LINK : 'https://soundcloud.com/bennypagemusic/studio-mix-recorded-for-bbc1xtra-742015',
+		EMBED_LINK : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/200631238&color=ff5500&inverse=false&auto_play=false&show_user=true'
 	},
 	mixcloud : {
 		CLEAR_LINK : 'https://www.mixcloud.com/modek/modek-mixtape-for-off-radio-3-spain/',
