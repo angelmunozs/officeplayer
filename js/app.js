@@ -189,11 +189,12 @@ var loadPage = function (url) {
 		$('#webpage-iframe').attr('src', url)
 		//	Show loader
 		iframeIsLoading('webpage')
-		var encodedURL = encodeURIComponent(url)
 		//	Start timeout
 		// iframeError = window.setTimeout(function () {
 		// 	$('#webpage-iframe').attr('src', ERROR_PAGE_LOCATION)
 		// }, IFRAME_LOAD_TIME_ALLOWED)
+		updateFavicon($('#webpage-url').val())
+		//	updateTitle(webpageIframe.contents().find("title").html())
 	}
 	else {
 		console.log('Not an URL!')
@@ -205,36 +206,43 @@ var loadPage = function (url) {
 //	Generic functions
 //	============================================================================================
 
+//	Called when the text input has not been validated
 var inputError = function (platform) {
 	if(!$('#' + platform + '-url')) return
 	$('#' + platform + '-url').css('border-color', '#f00')
 }
-
+//	Called when the text input has been validated
 var inputOk = function (platform) {
 	if(!$('#' + platform + '-url')) return
 	$('#' + platform + '-url').css('border-color', '#ccc')
 }
-
+//	Called during loading process
 var iframeIsLoading = function (platform) {
 	platforms[platform].times_clicked++
 	$('#' + platform + '-button').html('<span class="fa fa-spinner fa-spin"></span>')
 }
-
+//	Called when completely loaded
 var iframeIsLoaded = function (platform) {
 	$('#' + platform + '-button').html('<span class="fa fa-globe"></span>')
 }
-
+//	Update webpage title
 var updateTitle = function (data) {
 	return
 	if(data && data.length) {
 		$('#title').html(data + ' | ' + BASE_TITLE)
 	}
 }
-
-var updateFavicon = function (data) {
-	return
-	if(data && data.length) {
-		$('#favicon').attr('href', favicon)
+//	Update webpage favicon
+var updateFavicon = function (url) {
+	if(url && url.length) {
+		try {
+			$.get('http://www.google.com/s2/favicons?domain=' + encodeURIComponent(url), function(favicon) {
+				return $('#favicon').attr('href', favicon)
+			})
+		}
+		catch(e) {
+			console.log('Couldn\'t get favicon from ' + url + ' : \n' + e)
+		}
 	}
 }
 
@@ -246,21 +254,31 @@ $(document).ready(function () {
 
 	$('.navbar-fixed-bottom').hide()
 
-	//	Variables
+	//	Iframes
 	var webpageIframe = $('#webpage-iframe')
 	var youtubeIframe = $('#youtube-iframe')
 	var soundcloudIframe = $('#soundcloud-iframe')
 	var mixcloudIframe = $('#mixcloud-iframe')
+	//	Text inputs
 	var webpageInput = $('#webpage-url')
 	var youtubeInput = $('#youtube-url')
 	var soundcloudInput = $('#soundcloud-url')
 	var mixcloudInput = $('#mixcloud-url')
+	//	Buttons
+	var webpageButton = $('#webpage-button')
+	var youtubeButton = $('#youtube-button')
+	var soundcloudButton = $('#soundcloud-button')
+	var mixcloudButton = $('#mixcloud-button')
+	//	Links
+	var youtubeLink = $('#youtube-link')
+	var soundcloudLink = $('#soundcloud-link')
+	var mixcloudLink = $('#mixcloud-link')
+	//	URL
+	var webpageURL = $('#webpage-url').val()
 
 	//	Load events
 	webpageIframe.load(function () {
 		iframeIsLoaded('webpage')
-		//	updateTitle($('#webpage-iframe').contents().find("title").html())
-		//	updateFavicon($('#webpage-iframe').contents().find("link").html())
 		//	$('#webpage-url').val(iframe.contentWindow.location.href)
 		//	window.clearTimeout(iframeError)
 		//	iframeError = null
@@ -276,27 +294,27 @@ $(document).ready(function () {
 	})	
 
     //	Show players
-	$('#youtube-link').click(function () {
+	youtubeLink.click(function () {
 		showPlayer('youtube')
 	})
-	$('#soundcloud-link').click(function () {
+	soundcloudLink.click(function () {
 		showPlayer('soundcloud')
 	})
-	$('#mixcloud-link').click(function () {
+	mixcloudLink.click(function () {
 		showPlayer('mixcloud')
 	})
 
 	//	Click events
-	$('#webpage-button').click(function () {
+	webpageButton.click(function () {
 		loadPage(webpageInput.val())
 	})
-	$('#youtube-button').click(function () {
+	youtubeButton.click(function () {
 		updateYouTubeLink(youtubeInput.val())
 	})
-	$('#soundcloud-button').click(function () {
+	soundcloudButton.click(function () {
 		updateSoundCloudLink(soundcloudInput.val())
 	})
-	$('#mixcloud-button').click(function () {
+	mixcloudButton.click(function () {
 		updateMixcloudLink(mixcloudInput.val())
 	})
 
