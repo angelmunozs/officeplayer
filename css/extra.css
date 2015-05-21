@@ -72,3 +72,16 @@ h4 {
 	font-weight: bold;
 	color: #aaa;
 }
+.info-block {
+	background: #ddd;
+	margin: 12px;
+}
+.info-header {
+	background: #bbb;
+	margin: 0;
+	padding: 4px 10px 4px 10px;
+}
+.info-info {
+	font-size: 0.9em;
+	padding : 10px 20px 10px 20px;
+}
