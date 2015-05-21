@@ -1,3 +1,5 @@
+//	Cookie policy accepted
+var cookiePolicyAccepted = localStorage.cookiePolicyAccepted || false
 //	Default songs to be loaded
 var defaults = {
 	youtube : {
@@ -273,8 +275,28 @@ $(document).ready(function () {
 	var youtubeLink = $('#youtube-link')
 	var soundcloudLink = $('#soundcloud-link')
 	var mixcloudLink = $('#mixcloud-link')
+	//	Containers
+	var webpageContainer = $('#webpage-container')
 	//	URL
 	var webpageURL = $('#webpage-url').val()
+	//	Cookies
+	var cookiesAccept = $('#accept-cookie-policy')
+	var cookiesInfo = $('#show-cookie-policy')
+	var cookiesMessage = $('.cookie-message')
+
+	//	Cookie policy
+	if(!cookiePolicyAccepted) {
+		cookiesMessage.show()
+		webpageContainer.css('top', '67')
+	}
+	cookiesAccept.click(function () {
+		localStorage.cookiePolicyAccepted = true
+		cookiesMessage.hide()
+		webpageContainer.css('top', '34')
+	})
+	cookiesInfo.click(function () {
+		$('#webpage-iframe').attr('src', 'cookie-policy.html')
+	})
 
 	//	Load events
 	webpageIframe.load(function () {

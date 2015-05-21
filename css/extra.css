@@ -42,3 +42,33 @@ ol li {
 #intro {
 	color: #aaa;
 }
+h5 {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.separator-25px {
+	padding: 0;
+	height: 20px;
+	width: 100%
+}
+h4 {
+	font-size: 1.3em;
+}
+.table-condensed {
+	font-size: 0.9em;
+}
+.table-condensed .no-border {
+	border-top: none;
+}
+.small-letter {
+	font-size: 0.9em;
+}
+.row {
+	margin-left: 20px;
+}
+#cookie-policy-header {
+	margin-top: 30px;
+	text-align: center;
+	font-weight: bold;
+	color: #aaa;
+}

@@ -27,6 +27,15 @@
 	position: absolute;
 	width: 100%;
 }
+.cookie-message {
+	padding: 8px 20px 8px 20px;
+	position: absolute;
+	width: 100%;
+	background-color: #F5F6CE;
+	font-size: 12px;
+	top: 34px;
+	display: none;
+}
 input {
 	padding: 0px 10px 0px 10px;
 	border-radius: 0px;
@@ -81,4 +90,14 @@ iframe {
 }
 #mixcloud-iframe {
 	height: 60px;
+}
+#show-cookie-policy {
+	margin-left: 10px;
+	font-style: italic;
+}
+#accept-cookie-policy {
+	color : #333;
+}
+#accept-cookie-policy:hover {
+	text-decoration: : none;
 }
