@@ -287,12 +287,10 @@ $(document).ready(function () {
 	//	Cookie policy
 	if(!cookiePolicyAccepted) {
 		cookiesMessage.show()
-		webpageContainer.css('top', '67')
 	}
 	cookiesAccept.click(function () {
 		localStorage.cookiePolicyAccepted = true
 		cookiesMessage.hide()
-		webpageContainer.css('top', '34')
 	})
 	cookiesInfo.click(function () {
 		$('#webpage-iframe').attr('src', 'cookie-policy.html')
